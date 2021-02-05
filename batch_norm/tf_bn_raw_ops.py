@@ -8,13 +8,13 @@ offset = tf.constant([0.0,0.0,0.0])
 mean = tf.constant([1.0,1.0,1.0])
 variance = tf.constant([1.0,1.0,1.0])
 
-y, batch_mean, batch_var, r1, r2, r3 = tf.raw_ops.FusedBatchNormV3(
+y, moving_mean, moving_var, r1, r2, r3 = tf.raw_ops.FusedBatchNormV3(
     x=x, scale=scale, offset=offset, mean=mean, variance=variance,
     epsilon=0.001, exponential_avg_factor=0.5, data_format='NHWC',
     is_training=True, name=None)
 print("y:", y.numpy())
-print("moving_mean:", batch_mean.numpy())
-print("moving_var:", batch_var.numpy())
+print("moving_mean:", moving_mean.numpy())
+print("moving_var:", moving_var.numpy())
 print("saved mean:", r1.numpy())
 print("saved inv var:", r2.numpy())
 
