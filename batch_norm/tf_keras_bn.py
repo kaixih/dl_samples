@@ -25,7 +25,7 @@ print("x(step1):", x1.numpy())
 y1 = bn(x1, training=True)
 print("moving_mean(step1): ", bn.moving_mean.numpy())
 print("moving_var(step1): ", bn.moving_variance.numpy())
-print("y(step1):", y1)
+print("y(step1):", y1.numpy())
 
 # Inference Step
 x_infer = tf.random.uniform((2,1,2,3))
@@ -34,5 +34,5 @@ print("x(infer):", x_infer.numpy())
 y_infer = bn(x_infer, training=False)
 print("estimated_mean(infer): ", bn.moving_mean.numpy())
 print("estimated_var(infer): ", bn.moving_variance.numpy())
-print("y(infer):", y_infer)
+print("y(infer):", y_infer.numpy())
 
