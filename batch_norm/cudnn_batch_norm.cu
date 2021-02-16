@@ -154,10 +154,6 @@ int main(int argc, char const *argv[]) {
   checkCUDA(cudaDeviceSynchronize());
 
   print_array(y, x_size, "y NCHW format: ");
-  for (int i = 0; i < x_size; i++) {
-    std::cout << y[i] << " ";
-  }
-  std::cout << std::endl;
 
   checkCUDNN(cudnnBatchNormalizationBackwardEx(
       /*handle=*/cudnn,
