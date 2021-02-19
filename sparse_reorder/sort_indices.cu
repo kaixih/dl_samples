@@ -47,8 +47,8 @@ int main() {
   indices[9] = 1; indices[10] = 0; indices[11] = 0;
 
   char *values;
-  char values_size = N;
-  char values_size_bytes = values_size * sizeof(char);
+  int values_size = N;
+  int values_size_bytes = values_size * sizeof(char);
   checkCUDA(cudaMallocManaged(&values, values_size_bytes));
 	values[0] = 'b'; values[1]  = 'a'; values[2]  = 'd';
 	values[3] = 'c';
@@ -61,7 +61,7 @@ int main() {
   
   IndexComparator sorter(indices, ndims);
   thrust::sort(reorder, reorder + N, sorter);
-	checkCUDA(cudaDeviceSynchronize());
+  checkCUDA(cudaDeviceSynchronize());
 
   printf("permuted reorder: \n");
   for (int i = 0; i < N; i++) {
