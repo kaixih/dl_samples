@@ -24,17 +24,17 @@ with autocast_variable.enable_auto_cast_variables(dtype):
 #############################
 
 if False:
- mixed_precision.set_global_policy('mixed_bfloat16')
+  mixed_precision.set_global_policy('mixed_bfloat16')
 
- conv2d = layers.Conv2D(filters=4, kernel_size=2)
+  conv2d = layers.Conv2D(filters=4, kernel_size=2)
 
- x = tf.random.normal(shape=(4, 10, 10, 8))
- y = conv2d(x)
- print(conv2d.dtype_policy)
- print('y.dtype: %s' % y.dtype.name)
- print('conv2d.kernel.dtype: %s' % conv2d.kernel.dtype.name)
+  x = tf.random.normal(shape=(4, 10, 10, 8))
+  y = conv2d(x)
+  print(conv2d.dtype_policy)
+  print('y.dtype: %s' % y.dtype.name)
+  print('conv2d.kernel.dtype: %s' % conv2d.kernel.dtype.name)
 
- _ = y.numpy()
+  _ = y.numpy()
 
 
 # When we set the dtype to be bf16, the output y will be an empty tensor. This
