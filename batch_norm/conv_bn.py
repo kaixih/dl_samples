@@ -3,7 +3,7 @@ import tensorflow as tf
 from tensorflow.keras.layers import Conv2D, BatchNormalization
 
 x_shape = (2,3,3,8)
-conv = Conv2D(filters=4, kernel_size=(2, 2), padding='same', use_bias=False)
+conv = Conv2D(filters=4, kernel_size=(2, 2), padding='valid', use_bias=False)
 bn = BatchNormalization()
 
 model = tf.keras.Sequential()
