@@ -36,7 +36,10 @@ bn = BatchNormalization()
 model = tf.keras.Sequential()
 model.add(conv)
 model.add(bn)
-model.build(x_shape)
+# It seems when model.build() is called, every time the model execution will
+# insert an extra half->float and float->half cast if input is half.
+if not args.bench:
+  model.build(x_shape)
 
 # Don't use libc rand for benchmarking since it will be very slow.
 def get_random(shape):
@@ -50,15 +53,17 @@ def get_random(shape):
     return np.array(r).reshape(shape)
 
 x = tf.convert_to_tensor(get_random(x_shape))
+x = tf.cast(x, dtype=tf.float16)
 
-conv_kernel = tf.transpose(get_random(k_shape), perm=[1, 2, 3, 0])
-bn_gamma = get_random(g_shape)
-bn_beta = get_random(g_shape)
-bn_moving_mean = np.array([0.] * out_features)
-bn_moving_variance = np.array([1.] * out_features)
-model.layers[0].set_weights([conv_kernel])
-model.layers[1].set_weights([bn_gamma, bn_beta, bn_moving_mean,
-                             bn_moving_variance])
+if not args.bench:
+  conv_kernel = tf.transpose(get_random(k_shape), perm=[1, 2, 3, 0])
+  bn_gamma = get_random(g_shape)
+  bn_beta = get_random(g_shape)
+  bn_moving_mean = np.array([0.] * out_features)
+  bn_moving_variance = np.array([1.] * out_features)
+  model.layers[0].set_weights([conv_kernel])
+  model.layers[1].set_weights([bn_gamma, bn_beta, bn_moving_mean,
+                               bn_moving_variance])
 
 if args.bench:
   warmups = 10
