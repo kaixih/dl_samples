@@ -77,8 +77,7 @@ if args.bench:
   p.numpy()
   end = time.time()
   time_in_ms = (end - start) / repeats * 1000
-  print(f"Results(Fusion): Input: {x_shape} Filter: {k_shape} "
-        f"time(ms): {time_in_ms}")
+  print(f"Results: Input: {x_shape} Filter: {k_shape} time(ms): {time_in_ms}")
 else:
   y = model(x)
 
