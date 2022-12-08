@@ -3,6 +3,8 @@ import math
 import tensorflow as tf
 from tensorflow.keras.layers import Conv2D, BatchNormalization
 
+tf.keras.mixed_precision.set_global_policy('mixed_float16')
+
 # To make sure we have the same results from C, we use C-like PRNG.
 from ctypes import CDLL
 libc = CDLL('libc.so.6')
@@ -23,12 +25,14 @@ model.add(conv)
 model.add(bn)
 model.build(x_shape)
 
+# Don't use libc rand for benchmarking since it will be very slow.
 def get_random(shape):
   libc.srand(12)
   r = []
   for _ in range(math.prod(shape)):
     r.append(libc.rand() / RAND_MAX)
   return np.array(r).reshape(shape)
+  #return tf.random.normal(shape)
 
 x = tf.convert_to_tensor(get_random(x_shape))
 
